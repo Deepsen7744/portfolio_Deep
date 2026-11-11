@@ -1,0 +1,232 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* ── Cartoon design tokens ─────────────────────────────────────────────── */
+:root,
+[data-theme="light"] {
+  --bg: #fff6e5;            /* cream paper */
+  --bg-elev: #ffffff;
+  --surface: #fffaf0;
+  --surface-strong: #ffe9c7;
+  --ink: #1a1630;           /* outline + shadow colour */
+  --border: #1a1630;
+  --border-strong: #1a1630;
+  --fg: #1a1630;
+  --muted: #4d4868;
+  --subtle: #8b86a6;
+  --blue: #3d7bff;
+  --violet: #9b5cff;
+  --cyan: #12b5a3;
+  --yellow: #ffcf33;
+  --pink: #ff5c8a;
+  --mint: #74e4bd;
+  --orange: #ff8a3d;
+  --sky: #9fd3ff;
+  --dots: rgb(26 22 48 / 0.13);
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --bg: #1c1938;            /* night sky */
+  --bg-elev: #2b2754;
+  --surface: #252149;
+  --surface-strong: #37326a;
+  --ink: #07060f;
+  --border: #07060f;
+  --border-strong: #07060f;
+  --fg: #fff6e5;
+  --muted: #c4bfe6;
+  --subtle: #8a84b8;
+  --blue: #6b9bff;
+  --violet: #b48bff;
+  --cyan: #3fd9c6;
+  --yellow: #ffd84d;
+  --pink: #ff7aa2;
+  --mint: #7eeac4;
+  --orange: #ff9d5c;
+  --sky: #8fc6ff;
+  --dots: rgb(255 246 229 / 0.09);
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-elev: var(--bg-elev);
+  --color-surface: var(--surface);
+  --color-surface-strong: var(--surface-strong);
+  --color-line: var(--border);
+  --color-line-strong: var(--border-strong);
+  --color-ink: var(--ink);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
+  --color-blue: var(--blue);
+  --color-violet: var(--violet);
+  --color-cyan: var(--cyan);
+  --color-yellow: var(--yellow);
+  --color-pink: var(--pink);
+  --color-mint: var(--mint);
+  --color-orange: var(--orange);
+  --color-sky: var(--sky);
+  --font-sans: var(--font-nunito), ui-rounded, system-ui, sans-serif;
+  --font-display: var(--font-fredoka), var(--font-nunito), ui-rounded, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+}
+
+/* ── Base ──────────────────────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  overflow-x: clip;
+  /* buttery-smooth text rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-kerning: normal;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+
+::selection {
+  background: var(--yellow);
+  color: #1a1630;
+}
+
+:focus-visible {
+  outline: 3px solid var(--pink);
+  outline-offset: 3px;
+  border-radius: 10px;
+}
+
+/* ── Utilities ─────────────────────────────────────────────────────────── */
+@utility container-x {
+  width: 100%;
+  max-width: 76rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+  @media (width >= 40rem) {
+    padding-inline: 2rem;
+  }
+}
+
+/* Cartoon "pop" text: bright fill, ink outline, hard drop shadow. (Name kept for compatibility.) */
+@utility text-gradient {
+  color: var(--yellow);
+  -webkit-text-stroke: 0.075em var(--ink);
+  paint-order: stroke fill;
+  text-shadow: 0.05em 0.06em 0 var(--ink);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* Sticker card: thick outline + hard offset shadow */
+@utility toon {
+  --toon-off: 6px;
+  border: 3px solid var(--ink);
+  box-shadow: var(--toon-off) var(--toon-off) 0 var(--ink);
+}
+
+@utility toon-sm {
+  --toon-off: 3px;
+  border: 2.5px solid var(--ink);
+  box-shadow: var(--toon-off) var(--toon-off) 0 var(--ink);
+}
+
+/* Springy lift on hover, squash on press */
+@utility toon-press {
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.25s ease;
+  &:hover {
+    transform: translate(-2px, -3px);
+    box-shadow: calc(var(--toon-off, 4px) + 2px) calc(var(--toon-off, 4px) + 3px) 0 var(--ink);
+  }
+  &:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 var(--ink);
+  }
+}
+
+@utility glass {
+  --toon-off: 4px;
+  border: 2.5px solid var(--ink);
+  box-shadow: var(--toon-off) var(--toon-off) 0 var(--ink);
+}
+
+@utility hairline {
+  border: 2.5px solid var(--ink);
+}
+
+@utility eyebrow {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Halftone dots (replaces the old grid) */
+@utility bg-grid {
+  background-image: radial-gradient(var(--dots) 1.6px, transparent 1.8px);
+  background-size: 22px 22px;
+}
+
+/* ── Keyframes ─────────────────────────────────────────────────────────── */
+@keyframes bob {
+  0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); }
+  50% { transform: translateY(-14px) rotate(calc(var(--r, 0deg) + 8deg)); }
+}
+
+@keyframes marquee {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.8); opacity: 0.7; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+
+.animate-bob { animation: bob 6s ease-in-out infinite; }
+.animate-marquee { animation: marquee 40s linear infinite; }
+.animate-pulse-ring { animation: pulse-ring 1.8s cubic-bezier(0.2, 0.6, 0.3, 1) infinite; }
+.animate-blink { animation: blink 1s steps(1) infinite; }
+.hover-wiggle:hover { animation: wiggle 0.4s ease-in-out 2; }
+
+.group:hover .animate-marquee,
+.animate-marquee:hover { animation-play-state: paused; }
+
+html[data-intro="skip"] [data-loader] { display: none; }
+
+/* ── Reduced motion ────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
