@@ -300,11 +300,6 @@ export const site = {
       institution: "NIT Jamshedpur",
       period: "2023 – 2025",
     },
-    {
-      degree: "B.Sc.",
-      field: "Mathematics and Physics",
-      period: "2021",
-    },
   ] satisfies Education[],
 
   contact: {
